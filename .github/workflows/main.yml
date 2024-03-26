@@ -1,0 +1,46 @@
+name: Build Android Kernel
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Install Dependencies
+      run: |
+        sudo apt update
+        sudo apt install bc bison build-essential ccache curl flex g++-multilib gcc-multilib git git-lfs gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev libelf-dev liblz4-tool libncurses5 libncurses5-dev libsdl1.2-dev libssl-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip tree zlib1g-dev adb fastboot -y
+
+    - name: Download android_kernel_xiaomi_sm8450
+      run: git clone https://github.com/xiaomi-mayfly-devs/android_kernel_xiaomi_sm8450.git
+
+    - name: Download proton-clang
+      run: git clone https://github.com/kdrag0n/proton-clang.git
+
+    - uses: actions/setup-python@v5.1.0
+            
+    - name: Set Environment Variables
+      run: |
+        echo "PATH=$PATH:./proton-clang/bin" >>$GITHUB_ENV
+        echo "CC=clang" >> $GITHUB_ENV
+        echo "CLANG_TRIPLE=aarch64-linux-gnu-" >> $GITHUB_ENV
+        echo "CROSS_COMPILE=aarch64-linux-gnu-" >> $GITHUB_ENV
+        echo "CROSS_COMPILE_ARM32=arm-linux-gnueabi-" >> $GITHUB_ENV
+        echo "ARCH=arm64" >> $GITHUB_ENV
+
+    - name: Build Kernel
+      run: |
+        cd android_kernel_xiaomi_sm8450
+        make ARCH=arm64 O=out CC=clang gki_defconfig
+        make ARCH=arm64 O=out CC=clang -j4 2>&1 | tee kernel_log.log
+
+    - name: Upload Kernel Log
+      uses: actions/upload-artifact@v3
+      with:
+        name: kernel_log
+        path: android_kernel_xiaomi_sm8450/kernel_log.log
