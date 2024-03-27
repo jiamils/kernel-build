@@ -45,4 +45,4 @@ jobs:
       with:
         name: kernel
         path: android_kernel_xiaomi_sm8450/kernel_log.log
-              ./out
+              out/
