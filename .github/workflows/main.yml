@@ -40,7 +40,9 @@ jobs:
         make ARCH=arm64 O=out CC=clang -j8
         
     - name: tree file
-      run: tree
+      run: |
+            ls
+            tree
       
     - name: Upload Kernel
       uses: actions/upload-artifact@v4.3.1
