@@ -38,8 +38,10 @@ jobs:
         cd android_kernel_xiaomi_sm8450
         make ARCH=arm64 O=out CC=clang gki_defconfig
         make ARCH=arm64 O=out CC=clang -j8 2>&1 | tee kernel_log.log
-        tree
-
+        
+    - name: tree file
+      run: tree
+      
     - name: Upload Kernel
       uses: actions/upload-artifact@v4.3.1
       with:
