@@ -48,4 +48,4 @@ jobs:
       uses: actions/upload-artifact@v4.3.1
       with:
         name: kernel
-        path: $GITHUB_WORKSPACE/android_kernel_xiaomi_sm8450/out
+        path: android_kernel_xiaomi_sm8450/out/*
