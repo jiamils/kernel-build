@@ -41,11 +41,11 @@ jobs:
         
     - name: tree file
       run: |
-            ls
+            ls 
             tree
       
     - name: Upload Kernel
       uses: actions/upload-artifact@v4.3.1
       with:
         name: kernel
-        path: android_kernel_xiaomi_sm8450/out/*
+        path: android_kernel_xiaomi_sm8450/out/arh/arm64/boot
