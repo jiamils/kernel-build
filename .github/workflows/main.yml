@@ -36,7 +36,7 @@ jobs:
     - name: Build Kernel
       run: |
         cd android_kernel_xiaomi_sm8450
-        make ARCH=arm64 O=out CC=clang gki_defconfig
+        make ARCH=arm64 O=out CC=clang vendor/mayfly_GKI.config
         make ARCH=arm64 O=out CC=clang -j4 2>&1 | tee kernel_log.log
 
     - name: Upload Kernel Log
