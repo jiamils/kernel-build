@@ -38,6 +38,7 @@ jobs:
         cd android_kernel_xiaomi_sm8450
         make ARCH=arm64 O=out CC=clang vendor/mayfly_GKI.config
         make ARCH=arm64 O=out CC=clang -j4 2>&1 | tee kernel_log.log
+        tree
 
     - name: Upload Kernel Log
       uses: actions/upload-artifact@v3
