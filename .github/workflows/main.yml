@@ -17,10 +17,10 @@ jobs:
         sudo apt install bc bison build-essential ccache curl flex g++-multilib gcc-multilib git git-lfs gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev libelf-dev liblz4-tool libncurses5 libncurses5-dev libsdl1.2-dev libssl-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip tree zlib1g-dev adb fastboot -y
 
     - name: Download android_kernel_xiaomi_sm8450
-      run: git clone https://github.com/xiaomi-mayfly-devs/android_kernel_xiaomi_sm8450.git
+      run: git clone https://github.com/xiaomi-mayfly-devs/android_kernel_xiaomi_sm8450.git --depth=1
 
     - name: Download proton-clang
-      run: git clone https://github.com/kdrag0n/proton-clang.git
+      run: git clone https://github.com/kdrag0n/proton-clang.git --depth=1
 
     - uses: actions/setup-python@v5.1.0
             
