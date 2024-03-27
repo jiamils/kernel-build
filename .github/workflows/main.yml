@@ -26,7 +26,7 @@ jobs:
             
     - name: Set Environment Variables
       run: |
-        echo "PATH=$PATH:$GITHUB_WORKSPACE/proton-clang/bin" >>$GITHUB_ENV
+        echo "PATH=$GITHUB_WORKSPACE/proton-clang/bin" >>$GITHUB_ENV
         echo "CC=clang" >> $GITHUB_ENV
         echo "CLANG_TRIPLE=aarch64-linux-gnu-" >> $GITHUB_ENV
         echo "CROSS_COMPILE=aarch64-linux-gnu-" >> $GITHUB_ENV
