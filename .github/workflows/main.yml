@@ -10,48 +10,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
 
     - name: Install Dependencies
       run: |
         sudo apt update
-        sudo apt install bc bison build-essential ccache curl flex g++-multilib gcc-multilib git git-lfs gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev libelf-dev liblz4-tool libncurses5 libncurses5-dev libsdl1.2-dev libssl-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip tree zlib1g-dev adb fastboot -y
+        sudo apt install -y bc bison build-essential ccache curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32z-dev libelf-dev liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev adb fastboot
 
-    - name: Download kernel
-      run: git clone https://github.com/LineageOS/android_kernel_google_msm-4.9.git --depth=1
-
-    - name: Download proton-clang
+    - name: Download kernel and toolchains
       run: |
-            git clone https://github.com/LineageOS/android_prebuilts_clang_kernel_linux-x86_clang-r416183b.git --depth=1
-            git clone  https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9.git  --depth=1
-            git clone  https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9.git --depth=1
+        git clone https://github.com/LineageOS/android_kernel_google_msm-4.9.git --depth=1
+        git clone https://github.com/LineageOS/android_prebuilts_clang_host_linux-x86_clang-r416183b.git --depth=1
+        git clone https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9.git --depth=1
+        git clone https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9.git --depth=1
 
-    - uses: actions/setup-python@v5.1.0
-            
     - name: Set Environment Variables
       run: |
-        echo "PATH=$PATH:$GITHUB_WORKSPACE/android_prebuilts_clang_kernel_linux-x86_clang-r416183b/bin" >>$GITHUB_ENV
+        echo "PATH=$PATH:$GITHUB_WORKSPACE/android_prebuilts_clang_host_linux-x86_clang-r416183b/bin:$GITHUB_WORKSPACE/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9/bin:$GITHUB_WORKSPACE/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9/bin" >> $GITHUB_ENV
         echo "CC=clang" >> $GITHUB_ENV
         echo "CLANG_TRIPLE=aarch64-linux-gnu-" >> $GITHUB_ENV
-        echo "CROSS_COMPILE=aarch64--linux-android-gnu-" >> $GITHUB_ENV
+        echo "CROSS_COMPILE=aarch64-linux-android-" >> $GITHUB_ENV
         echo "CROSS_COMPILE_ARM32=arm-linux-androideabi-" >> $GITHUB_ENV
         echo "ARCH=arm64" >> $GITHUB_ENV
 
     - name: Build Kernel
       run: |
         cd android_kernel_google_msm-4.9
-        export PATH=\$GITHUB_WORKSPACE/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9/bin:\$GITHUB_WORKSPACE/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9/bin:\$PATH
-        export BRAND_SHOW_FLAG=Pixel
-        export BRAND_SHOW_FLAG=sdm845
-        make ARCH=arm64 O=out CC=clang SUBARCH=arm64 CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-androideabi- CROSS_COMPILE=aarch64-linux-android- sdm845_defconfig
-        make ARCH=arm64 O=out CC=clang -j8
-        
-    - name: tree file
-      run: |
-            ls 
-            tree
-      
+        make O=out CC=clang ARCH=arm64 SUBARCH=arm64 CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-android- CROSS_COMPILE_ARM32=arm-linux-androideabi- sdm845_defconfig
+        make -j$(nproc) O=out CC=clang ARCH=arm64
+
     - name: Upload Kernel
-      uses: actions/upload-artifact@v4.3.1
+      uses: actions/upload-artifact@v3
       with:
         name: kernel
         path: android_kernel_google_msm-4.9/out/arch/arm64/boot
