@@ -20,13 +20,13 @@ jobs:
       run: git clone https://github.com/LineageOS/android_kernel_google_msm-4.9.git --depth=1
 
     - name: Download proton-clang
-      run: git clone https://github.com/kdrag0n/proton-clang.git --depth=1
+      run: git clone https://github.com/LineageOS/android_prebuilts_clang_kernel_linux-x86_clang-r416183b.git --depth=1
 
     - uses: actions/setup-python@v5.1.0
             
     - name: Set Environment Variables
       run: |
-        echo "PATH=$PATH:$GITHUB_WORKSPACE/proton-clang/bin" >>$GITHUB_ENV
+        echo "PATH=$PATH:$GITHUB_WORKSPACE/android_prebuilts_clang_kernel_linux-x86_clang-r416183b/bin" >>$GITHUB_ENV
         echo "CC=clang" >> $GITHUB_ENV
         echo "CLANG_TRIPLE=aarch64-linux-gnu-" >> $GITHUB_ENV
         echo "CROSS_COMPILE=aarch64-linux-gnu-" >> $GITHUB_ENV
@@ -50,4 +50,4 @@ jobs:
       uses: actions/upload-artifact@v4.3.1
       with:
         name: kernel
-        path: android_kernel_xiaomi_sm8450/out/arch/arm64/boot
+        path: android_kernel_google_msm-4.9/out/arch/arm64/boot
