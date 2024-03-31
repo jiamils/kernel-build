@@ -36,6 +36,8 @@ jobs:
 
     - name: Build Kernel
       run: |
+        export BRAND_SHOW_FLAG=pixel
+        export TARGET_PRODUCT=sdm845
         cd android_kernel_google_msm-4.9
         make O=out CC=clang ARCH=arm64 CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-android- CROSS_COMPILE_ARM32=arm-linux-androideabi- sdm845_defconfig
         make -j$(nproc) V=1 O=out CC=clang ARCH=arm64
