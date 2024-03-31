@@ -2,7 +2,6 @@ name: Build Android Kernel
 
 on:
   push:
-    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -21,13 +20,13 @@ jobs:
     - name: Download kernel and toolchains
       run: |
         git clone https://github.com/LineageOS/android_kernel_google_msm-4.9.git --depth=1
-        git clone https://github.com/LineageOS/android_prebuilts_clang_kernel_linux-x86_clang-r416183b.git --depth=1
+        git clone https://github.com/kdrag0n/proton-clang.git --depth=1
         git clone https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9.git --depth=1
         git clone https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9.git --depth=1
 
     - name: Set Environment Variables
       run: |
-        echo "PATH=$(echo $GITHUB_WORKSPACE/android_prebuilts_clang_kernel_linux-x86_clang-r416183b/bin):$(echo $GITHUB_WORKSPACE/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9/bin):$(echo $GITHUB_WORKSPACE/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9/bin):$PATH" >> $GITHUB_ENV
+        echo "PATH=$(echo $GITHUB_WORKSPACE/proton-clang/bin):$(echo $GITHUB_WORKSPACE/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9/bin):$(echo $GITHUB_WORKSPACE/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9/bin):$PATH" >> $GITHUB_ENV
         echo "CC=clang" >> $GITHUB_ENV
         echo "CLANG_TRIPLE=aarch64-linux-gnu-" >> $GITHUB_ENV
         echo "CROSS_COMPILE=aarch64-linux-android-" >> $GITHUB_ENV
