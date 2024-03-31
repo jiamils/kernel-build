@@ -38,7 +38,7 @@ jobs:
       run: |
         cd android_kernel_google_msm-4.9
         make O=out CC=clang ARCH=arm64 SUBARCH=arm64 CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-android- CROSS_COMPILE_ARM32=arm-linux-androideabi- sdm845_defconfig
-        make -j$(nproc) -v=1 O=out CC=clang ARCH=arm64
+        make -j$(nproc) V=1 O=out CC=clang ARCH=arm64
 
     - name: Upload Kernel
       uses: actions/upload-artifact@v3
