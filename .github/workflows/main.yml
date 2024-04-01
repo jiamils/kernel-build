@@ -19,7 +19,7 @@ jobs:
 
     - name: Download kernel and toolchains
       run: |
-        git clone https://github.com/PixelBuilds-Devices/android_device_google_crosshatch.git --depth=1
+        git clone https://github.com/PixelBuilds-Devices/android_kernel_google_bluecross.git --depth=1
         git clone https://github.com/LineageOS/android_prebuilts_clang_kernel_linux-x86_clang-r416183b.git --depth=1
         git clone https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9.git --depth=1
         git clone https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9.git --depth=1
@@ -35,7 +35,7 @@ jobs:
 
     - name: Build Kernel
       run: |
-        cd android_device_google_crosshatch
+        cd android_kernel_google_bluecross
         make O=out CC=clang ARCH=arm64 CLANG_TRIPLE=aarch64-linux-android- CROSS_COMPILE=aarch64-linux-android- CROSS_COMPILE_ARM32=arm-linux-androideabi- sdm845_defconfig
         make -j$(nproc) V=1 O=out CC=clang ARCH=arm64
 
