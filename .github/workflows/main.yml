@@ -36,6 +36,7 @@ jobs:
     - name: Build Kernel
       run: |
         cd android_kernel_google_bluecross
+        mkdir out 
         make O=out CC=clang ARCH=arm64 CLANG_TRIPLE=aarch64-linux-android- CROSS_COMPILE=aarch64-linux-android- CROSS_COMPILE_ARM32=arm-linux-androideabi- sdm845_defconfig
         make -j$(nproc) V=1 O=out CC=clang ARCH=arm64
 
