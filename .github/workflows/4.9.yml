@@ -41,16 +41,11 @@ jobs:
         git config --global user.name "bot"
 
         curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -
-        sed -i s/'CONFIG_LTO_CLANG=y'/'CONFIG_LTO_CLANG=n'/g $GITHUB_WORKSPACE/kernel/arch/arm64/configs/b1c1_defconfig
         echo CONFIG_LTO_NONE=y >> $GITHUB_WORKSPACE/kernel/arch/arm64/configs/b1c1_defconfig
-        echo CONFIG_LTO=y >> $GITHUB_WORKSPACE/kernel/arch/arm64/configs/b1c1_defconfig
-        sed -i s/'CONFIG_KPROBES=y'/'CONFIG_KPROBES=n'/g $GITHUB_WORKSPACE/kernel/arch/arm64/configs/b1c1_defconfig
         echo CONFIG_KPROBES=y >> $GITHUB_WORKSPACE/kernel/arch/arm64/configs/b1c1_defconfig
         echo CONFIG_HAVE_KPROBES=y >> $GITHUB_WORKSPACE/kernel/arch/arm64/configs/b1c1_defconfig
         echo CONFIG_KPROBE_EVENTS=y >> $GITHUB_WORKSPACE/kernel/arch/arm64/configs/b1c1_defconfig
-        sed -i 's/CONFIG_KSU=n/CONFIG_KSU=y/g' $GITHUB_WORKSPACE/kernel/arch/arm64/configs/b1c1_defconfig
-        sed -i s/=m/=y/g $GITHUB_WORKSPACE/kernel/arch/arm64/configs/b1c1_defconfig
-        sed -i s/=m/=y/g $GITHUB_WORKSPACE/kernel/techpack/audio/config/b1c1auto.conf
+        sed -i 's/CONFIG_QCA_CLD_WLAN=m/CONFIG_QCA_CLD_WLAN=y/g' $GITHUB_WORKSPACE/kernel/arch/arm64/configs/b1c1_defconfig
         echo "CONFIG_KSU=y" >> $GITHUB_WORKSPACE/kernel/arch/arm64/configs/b1c1_defconfig
         echo "CONFIG_MODULES=y" >> $GITHUB_WORKSPACE/kernel/arch/arm64/configs/b1c1_defconfig
         echo "CONFIG_KPROBES=y" >> $GITHUB_WORKSPACE/kernel/arch/arm64/configs/b1c1_defconfig
