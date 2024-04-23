@@ -66,4 +66,3 @@ jobs:
         name: 4.9_${{ env.BUILD_TIME}}
         path: |
           kernel/out/arch/arm64/boot/*
-          kernel/drivers/staging/qcacld-3.0/wlan.ko
